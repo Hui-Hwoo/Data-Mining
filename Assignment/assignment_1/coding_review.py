@@ -1,13 +1,25 @@
-def cardinality_items(filename: str = "data/basket_data.csv") -> int:
+# =================================================== #
+#                 CS 6200 Data Mining                 #
+#                     Assignment 1                    #
+#                Hui Hu (NUID: 002912425)             #
+#                hu.hui1@northeastern.edu             #
+# =================================================== #
+
+data_folder = "data/"
+filename = "basket_data.csv"
+
+
+def cardinality_items(data_folder=data_folder, filename=filename) -> int:
     """
     Takes a filename "*.csv" and returns an integer
     """
     # check file extension and existence
     if filename[-4:] != ".csv":
-        raise ValueError("Invalid file extension: ", filename[-4:])
+        print("Invalid file extension: ", filename[-4:])
+        return 0
     try:
         hashset = set()
-        with open(filename) as f:
+        with open(f"{data_folder}/{filename}") as f:
             data = f.read()
 
         # read file line by line and split by comma
@@ -15,16 +27,15 @@ def cardinality_items(filename: str = "data/basket_data.csv") -> int:
             for item in line.split(","):
                 # add item to hashset
                 hashset.add(item.strip())
+
         # return the cardinality of the hashset
-        print(filename, "Doneeeeee")
         return len(hashset)
     except FileNotFoundError:
-        raise FileNotFoundError("File not found:", filename)
+        print("File not found:", filename)
+        return 0
 
-    return 0
 
-
-def all_itemsets(items: list[str] = ["ham", "cheese", "bread"], k: int = 2) -> list[str]:
+def all_itemsets(items: ["ham", "cheese", "bread"], k: int = 2) -> list[str]:
     """
     Takes a list of items and returns a list of all possible itemsets of size k
     """
@@ -44,6 +55,14 @@ def all_itemsets(items: list[str] = ["ham", "cheese", "bread"], k: int = 2) -> l
     return itemsets
 
 
+def main():
+    cardinality = cardinality_items(data_folder=data_folder, filename=filename)
+    print(f"Cardinality of items in {filename}: {cardinality}")
+
+    item = ["ham", "cheese", "bread"]
+    k = 2
+    print(f"All itemsets of size {k} in {item}:", all_itemsets(item, k))
+
+
 if __name__ == "__main__":
-    print(cardinality_items())
-    print(all_itemsets())
+    main()
