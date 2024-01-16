@@ -11,7 +11,9 @@
 ## Results
 
 1. Coding Review
-![coding_review](./result/coding_review.png)
+   
+   ![coding_review](./result/coding_review.png)
 
 2. Examining Dataset
-![examining_dataset](./result/examining_dataset.png)
+   
+   ![examining_dataset](./result/examining_dataset.png)
