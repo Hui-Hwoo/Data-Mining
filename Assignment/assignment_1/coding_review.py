@@ -5,11 +5,10 @@
 #                hu.hui1@northeastern.edu             #
 # =================================================== #
 
-data_folder = "data/"
-filename = "basket_data.csv"
+filename = "data/basket_data.csv"
 
 
-def cardinality_items(data_folder=data_folder, filename=filename) -> int:
+def cardinality_items(filename=filename) -> int:
     """
     Takes a filename "*.csv" and returns an integer
     """
@@ -19,7 +18,7 @@ def cardinality_items(data_folder=data_folder, filename=filename) -> int:
         return 0
     try:
         hashset = set()
-        with open(f"{data_folder}/{filename}") as f:
+        with open(filename) as f:
             data = f.read()
 
         # read file line by line and split by comma
@@ -35,28 +34,28 @@ def cardinality_items(data_folder=data_folder, filename=filename) -> int:
         return 0
 
 
-def all_itemsets(items: ["ham", "cheese", "bread"], k: int = 2) -> list[str]:
+def all_itemsets(items, N) -> list[str]:
     """
     Takes a list of items and returns a list of all possible itemsets of size k
     """
-    if k == 0:
+    if N == 0:
         return [[]]
     if len(items) == 0:
         return []
     # get first item
     first = items[0]
     # get all itemsets of size k-1
-    itemsets = all_itemsets(items[1:], k - 1)
+    itemsets = all_itemsets(items[1:], N - 1)
     # add first to all itemsets
     for itemset in itemsets:
         itemset.insert(0, first)
     # get all itemsets of size k
-    itemsets.extend(all_itemsets(items[1:], k))
+    itemsets.extend(all_itemsets(items[1:], N))
     return itemsets
 
 
 def main():
-    cardinality = cardinality_items(data_folder=data_folder, filename=filename)
+    cardinality = cardinality_items(filename=filename)
     print(f"Cardinality of items in {filename}: {cardinality}")
 
     item = ["ham", "cheese", "bread"]
