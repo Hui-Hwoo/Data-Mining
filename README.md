@@ -2,6 +2,10 @@
 
 For CS 6220 Data Mining
 
+# prerequisites
+
+1. Install Git Large File Storage (LFS) using the instructions [here](https://git-lfs.github.com/)
+
 # How to run
 
 1. Install virtualenv
