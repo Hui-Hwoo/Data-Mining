@@ -94,9 +94,8 @@ def get_movie_pairs(data_folder=data_folder, movie_titles_file=movie_titles_file
     movie_pairs = {}
     with open(f"{data_folder}/{movie_titles_file}", "r", encoding="ISO-8859-1") as f:
         for line in f:
-            movie_id = line.split(",")[0].strip()
-            movie_name = line.split(",")[2].strip()
-            movie_pairs[movie_id] = movie_name
+            movie_id, _, movie_name  = line.split(",", 2)
+            movie_pairs[movie_id.strip()] = movie_name.strip()
 
     return movie_pairs
 
@@ -109,7 +108,7 @@ def get_num_movies(data_folder=data_folder, file=movie_titles_file):
     movies = set()
     with open(f"{data_folder}/{file}", "r", encoding="ISO-8859-1") as f:
         for line in f:
-            movies.add(line.split(",")[2].strip())
+            movies.add(line.split(",", 2)[2].strip())
 
     return len(movies)
 
@@ -122,7 +121,7 @@ def get_same_name_movies(data_folder=data_folder, file=movie_titles_file):
     movies = {}
     with open(f"{data_folder}/{file}", "r", encoding="ISO-8859-1") as f:
         for line in f:
-            name = line.split(",")[2].strip()
+            name = line.split(",", 2)[2].strip()
             if name in movies:
                 movies[name] += 1
             else:
@@ -146,11 +145,7 @@ def get_same_name_movies(data_folder=data_folder, file=movie_titles_file):
 """
 
 
-def get_users_200_movies(
-    data_folder=data_folder,
-    file_list=combined_data_list,
-    movie_titles_file=movie_titles_file,
-):
+def get_users_200_movies(data_folder=data_folder, file_list=combined_data_list):
     """
     :param file_list: list of file names
     :return: list of users who rated exactly 200 movies
@@ -213,7 +208,7 @@ def get_users_200_movies(
             users_with_200_rates.append((user_id, users[user_id]["movies"][5]))
 
     num_users = len(users_with_200_rates)
-    lowest_user = min(users_with_200_rates)
+    lowest_user = min(users_with_200_rates, key=lambda x: int(x[0]))
 
     return num_users, lowest_user
 
@@ -248,7 +243,7 @@ def main():
     num_movies = get_num_movies(data_folder=data_folder, file=movie_titles_file)
     print("    Number of movies with unique names:", num_movies)
 
-    # number of movies with same name (7 movies) 
+    # number of movies with same name (7 movies)
     num_same_name_movies = get_same_name_movies(
         data_folder=data_folder, file=movie_titles_file
     )
@@ -268,19 +263,13 @@ def main():
 
     num_users, lowest_user = get_users_200_movies(
         data_folder=data_folder,
-        file_list=combined_data_list,
-        movie_titles_file=movie_titles_file,
+        file_list=combined_data_list
     )
     print("    Number of users who rated exactly 200 movies:", num_users)  # 605 users
     print("    Lowest user ID:", lowest_user[0])  # 1001192
     print("    Movies that this person liked the most:")
     for movie_id in lowest_user[1]:
         print(f"\t{movie_pairs[movie_id]}")
-    # Sex and the City: Season 4
-    # Ghost
-    # Steel Magnolias
-    # Pure Country
-    # Finding Nemo (Full-screen)
 
 
 if __name__ == "__main__":

@@ -28,6 +28,8 @@ def cardinality_items(filename=filename) -> int:
                 hashset.add(item.strip())
 
         # return the cardinality of the hashset
+        if "" in hashset:
+            hashset.remove("")
         return len(hashset)
     except FileNotFoundError:
         print("File not found:", filename)
